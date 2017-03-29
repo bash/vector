@@ -28,4 +28,6 @@ int main(int argc, char* argv[]) {
   struct Test *t = vector_at(vec, 0);
 
   printf("%d\n", t->foo);
+
+  vector_free(vec);
 }
