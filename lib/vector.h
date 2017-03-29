@@ -19,6 +19,6 @@ void *vector_at(Vector *vec, int index);
 
 void vector_free(Vector *vec);
 
-void vector_remove(Vector *vec, unsigned index, unsigned count);
+void vector_remove(Vector *vec, int index, unsigned count);
 
 int vector_concat(Vector *vec, Vector *value);

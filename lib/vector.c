@@ -69,43 +69,43 @@ void vector_free(Vector *vec) {
   assert(vec);
 
   free(vec->buffer);
-  vector_init(vec, vec->item_size);
+  free(vec);
+}
+
+unsigned vector_calculate_index(Vector *vec, int index) {
+  if (index < 0)
+    index += vec->item_count;
+
+  assert(index >= 0);
+  assert(index < vec->item_count);
+
+  return index;
 }
 
 void *vector_at(Vector *vec, int index) {
   assert(vec);
 
-  if (index < 0)
-    index += vec->item_count;
-
-  if (index < 0)
-    return NULL;
-
-  if (index >= vec->item_count)
-    return NULL;
+  index = vector_calculate_index(vec, index);
     
   return &vec->buffer[index * vec->item_size];
 }
 
-void vector_remove(Vector *vec, unsigned start, unsigned count) {
+void vector_remove(Vector *vec, int index, unsigned count) {
   assert(vec);
  
-  // TODO: should out of bounds use 'assert'?
+  index = vector_calculate_index(vec, index);
 
-  if (start >= vec->item_count)
+  if ((index + count) >= vec->item_count)
     return;
 
-  if ((start + count) >= vec->item_count)
-    return;
-
-  unsigned start_bytes = (start + count) * vec->item_size;
-  unsigned end_bytes = (vec->item_count - count) * vec->item_size;
+  unsigned offset = (index + count) * vec->item_size;
+  unsigned end = (vec->item_count - count) * vec->item_size;
   unsigned remove = count * vec->item_size;
 
-  for (int i = start_bytes; i <= end_bytes; i += 1)
+  for (int i = offset; i <= end; i += 1)
     vec->buffer[i - remove] = vec->buffer[i];
 
-  vec->item_count -= 1;
+  vec->item_count -= count;
 }
 
 int vector_shrink(Vector *vec) {
