@@ -25,6 +25,9 @@ int main(int argc, char* argv[]) {
   vector_push(vec, &test);
   printf("count = %d, capacity = %d\n", vec->item_count, vec->item_capacity);
 
+  vector_shrink(vec);
+  printf("count = %d, capacity = %d\n", vec->item_count, vec->item_capacity);
+
   struct Test *t = vector_at(vec, 0);
 
   printf("%d\n", t->foo);

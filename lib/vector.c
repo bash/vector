@@ -79,8 +79,5 @@ void *vector_at(Vector *vec, int index) {
 int vector_shrink(Vector *vec) {
   assert(vec);
 
-  int item_count = vec->item_count;
-  int capacity = item_count * item_count;
-
-  return vector_resize(vec, item_count);
+  return vector_resize(vec, vec->item_count);
 }
