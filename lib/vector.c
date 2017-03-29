@@ -3,7 +3,7 @@
 #include <assert.h>
 #include "vector.h"
 
-Vector* vector_new(int item_size) {
+Vector* vector_new(unsigned item_size) {
   Vector *vec = malloc(sizeof(Vector));
 
   vector_init(vec, item_size);
@@ -11,7 +11,7 @@ Vector* vector_new(int item_size) {
   return vec;
 }
 
-void vector_init(Vector *vec, int item_size) {
+void vector_init(Vector *vec, unsigned item_size) {
   assert(vec);
 
   vec->buffer = NULL;
@@ -20,7 +20,7 @@ void vector_init(Vector *vec, int item_size) {
   vec->item_capacity = 0;
 }
 
-int vector_resize(Vector *vec, int capacity) {
+unsigned vector_resize(Vector *vec, int capacity) {
   assert(vec);
 
   if (capacity < vec->item_count)
@@ -37,16 +37,16 @@ int vector_resize(Vector *vec, int capacity) {
   return 1;
 }
 
-int vector_push(Vector *vec, void *value) {
+unsigned vector_push(Vector *vec, void *value) {
   assert(vec);
 
-  int item_count = vec->item_count + 1;
+  unsigned item_count = vec->item_count + 1;
   
   if (vec->item_capacity < item_count)
     if (!vector_resize(vec, item_count * item_count))
       return 0;
 
-  for (int i = 0; i < vec->item_size; i += 1)
+  for (unsigned i = 0; i < vec->item_size; i += 1)
     vec->buffer[vec->item_count * vec->item_size + i] = ((char *) value)[i];
 
   vec->item_count += 1;
@@ -76,7 +76,7 @@ void *vector_at(Vector *vec, int index) {
   return &vec->buffer[index * vec->item_size];
 }
 
-int vector_shrink(Vector *vec) {
+unsigned vector_shrink(Vector *vec) {
   assert(vec);
 
   return vector_resize(vec, vec->item_count);

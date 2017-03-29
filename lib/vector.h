@@ -2,18 +2,18 @@ typedef struct Vector Vector;
 
 struct Vector {
   char *buffer;
-  int item_count;
-  int item_size;
-  int item_capacity;
+  unsigned item_count;
+  unsigned item_size;
+  unsigned item_capacity;
 };
 
-Vector *vector_new(int item_size);
+Vector *vector_new(unsigned item_size);
 
-void vector_init(Vector *vec, int item_size);
+void vector_init(Vector *vec, unsigned item_size);
 
-int vector_push(Vector *vec, void *item);
+unsigned vector_push(Vector *vec, void *item);
 
-int vector_shrink(Vector *vec);
+unsigned vector_shrink(Vector *vec);
 
 void *vector_at(Vector *vec, int index);
 
