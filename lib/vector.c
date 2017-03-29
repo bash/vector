@@ -20,7 +20,7 @@ void vector_init(Vector *vec, unsigned item_size) {
   vec->item_capacity = 0;
 }
 
-unsigned vector_resize(Vector *vec, int capacity) {
+int vector_resize(Vector *vec, int capacity) {
   assert(vec);
 
   if (capacity < vec->item_count)
@@ -37,7 +37,7 @@ unsigned vector_resize(Vector *vec, int capacity) {
   return 1;
 }
 
-unsigned vector_push(Vector *vec, void *value) {
+int vector_push(Vector *vec, void *value) {
   assert(vec);
 
   unsigned item_count = vec->item_count + 1;
@@ -46,7 +46,7 @@ unsigned vector_push(Vector *vec, void *value) {
     if (!vector_resize(vec, item_count * 1.5))
       return 0;
 
-  for (unsigned i = 0; i < vec->item_size; i += 1)
+  for (int i = 0; i < vec->item_size; i += 1)
     vec->buffer[vec->item_count * vec->item_size + i] = ((char *) value)[i];
 
   vec->item_count += 1;
@@ -67,15 +67,37 @@ void *vector_at(Vector *vec, int index) {
   if (index < 0)
     index += vec->item_count;
 
-  assert(index >= 0);
+  if (index < 0)
+    return NULL;
 
-  if (index > vec->item_count)
+  if (index >= vec->item_count)
     return NULL;
     
   return &vec->buffer[index * vec->item_size];
 }
 
-unsigned vector_shrink(Vector *vec) {
+void vector_remove(Vector *vec, unsigned start, unsigned count) {
+  assert(vec);
+ 
+  // TODO: should out of bounds use 'assert'?
+
+  if (start >= vec->item_count)
+    return;
+
+  if ((start + count) >= vec->item_count)
+    return;
+
+  unsigned start_bytes = (start + count) * vec->item_size;
+  unsigned end_bytes = (vec->item_count - count) * vec->item_size;
+  unsigned remove = count * vec->item_size;
+
+  for (int i = start_bytes; i <= end_bytes; i += 1)
+    vec->buffer[i - remove] = vec->buffer[i];
+
+  vec->item_count -= 1;
+}
+
+int vector_shrink(Vector *vec) {
   assert(vec);
 
   return vector_resize(vec, vec->item_count);

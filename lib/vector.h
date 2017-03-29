@@ -11,10 +11,12 @@ Vector *vector_new(unsigned item_size);
 
 void vector_init(Vector *vec, unsigned item_size);
 
-unsigned vector_push(Vector *vec, void *item);
+int vector_push(Vector *vec, void *item);
 
-unsigned vector_shrink(Vector *vec);
+int vector_shrink(Vector *vec);
 
 void *vector_at(Vector *vec, int index);
 
 void vector_free(Vector *vec);
+
+void vector_remove(Vector *vec, unsigned index, unsigned count);
