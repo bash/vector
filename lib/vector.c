@@ -43,7 +43,7 @@ unsigned vector_push(Vector *vec, void *value) {
   unsigned item_count = vec->item_count + 1;
   
   if (vec->item_capacity < item_count)
-    if (!vector_resize(vec, item_count * item_count))
+    if (!vector_resize(vec, item_count * 1.5))
       return 0;
 
   for (unsigned i = 0; i < vec->item_size; i += 1)
