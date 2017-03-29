@@ -3,6 +3,8 @@
 #include <assert.h>
 #include "vector.h"
 
+#define EXPAND_FACTOR 1.5
+
 Vector *vector_new(unsigned item_size) {
   Vector *vec = malloc(sizeof(Vector));
 
@@ -37,14 +39,23 @@ int vector_resize(Vector *vec, int capacity) {
   return 1;
 }
 
+int vector_expand(Vector *vec, int item_count) {
+  assert(vec);
+
+  if (vec->item_capacity < item_count)
+    if (!vector_resize(vec, item_count * EXPAND_FACTOR))
+      return 0;
+
+  return 1;
+}
+
 int vector_push(Vector *vec, void *value) {
   assert(vec);
 
   unsigned item_count = vec->item_count + 1;
-  
-  if (vec->item_capacity < item_count)
-    if (!vector_resize(vec, item_count * 1.5))
-      return 0;
+
+  if (!vector_expand(vec, item_count))
+    return 0;
 
   for (int i = 0; i < vec->item_size; i += 1)
     vec->buffer[vec->item_count * vec->item_size + i] = ((char *) value)[i];
@@ -103,11 +114,18 @@ int vector_shrink(Vector *vec) {
   return vector_resize(vec, vec->item_count);
 }
 
-void vector_concat(Vector *vec, Vector *value) {
+int vector_concat(Vector *vec, Vector *value) {
   assert(vec);
   assert(value);
+
+  unsigned item_count = vec->item_capacity + value->item_count;
+
+  if (!vector_expand(vec, item_count))
+    return 0;
 
   for (int i = 0; i < value->item_count; i += 1) {
     vector_push(vec, vector_at(value, i));
   }
+
+  return 1;
 }
