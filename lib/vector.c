@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 #include "vector.h"
 
 Vector* vector_new(int item_size) {
@@ -11,6 +12,8 @@ Vector* vector_new(int item_size) {
 }
 
 void vector_init(Vector *vec, int item_size) {
+  assert(vec);
+
   vec->buffer = NULL;
   vec->item_count = 0;
   vec->item_size = item_size;
@@ -18,6 +21,8 @@ void vector_init(Vector *vec, int item_size) {
 }
 
 int vector_resize(Vector *vec, int capacity) {
+  assert(vec);
+
   if (capacity < vec->item_count)
     return 0;
 
@@ -33,6 +38,8 @@ int vector_resize(Vector *vec, int capacity) {
 }
 
 int vector_push(Vector *vec, void *value) {
+  assert(vec);
+
   int item_count = vec->item_count + 1;
   
   if (vec->item_capacity < item_count)
@@ -47,17 +54,33 @@ int vector_push(Vector *vec, void *value) {
   return 1;
 }
 
-void vector_free(Vector *vector) {
-  free(vector->buffer);
-  vector_init(vector, vector->item_size);  
+void vector_free(Vector *vec) {
+  assert(vec);
+
+  free(vec->buffer);
+  vector_init(vec, vec->item_size);
 }
 
 void *vector_at(Vector *vec, int index) {
+  assert(vec);
+
   if (index < 0)
-    index = vec->item_count - index;
+    index = vec->item_count + index;
+
+  if (index < 0)
+    assert(0);
   
   if (index > vec->item_count)
     return NULL;
     
   return &vec->buffer[index * vec->item_size];
+}
+
+int vector_shrink(Vector *vec) {
+  assert(vec);
+
+  int item_count = vec->item_count;
+  int capacity = item_count * item_count;
+
+  return vector_resize(vec, item_count);
 }
