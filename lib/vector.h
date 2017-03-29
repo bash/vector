@@ -1,11 +1,11 @@
-typedef struct Vector Vector;
-
 struct Vector {
   char *buffer;
   unsigned item_count;
   unsigned item_size;
   unsigned item_capacity;
 };
+
+typedef struct Vector Vector;
 
 Vector *vector_new(unsigned item_size);
 
