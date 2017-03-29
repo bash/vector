@@ -5,8 +5,7 @@ struct Test {
   int foo;
 };
 
-int main(int argc, char* argv[]) {
- 
+int main(int argc, char *argv[]) { 
   Vector *vec = vector_new(sizeof(struct Test));
   struct Test test = { 666 };
 

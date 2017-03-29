@@ -3,7 +3,7 @@
 #include <assert.h>
 #include "vector.h"
 
-Vector* vector_new(unsigned item_size) {
+Vector *vector_new(unsigned item_size) {
   Vector *vec = malloc(sizeof(Vector));
 
   vector_init(vec, item_size);
@@ -65,11 +65,10 @@ void *vector_at(Vector *vec, int index) {
   assert(vec);
 
   if (index < 0)
-    index = vec->item_count + index;
+    index += vec->item_count;
 
-  if (index < 0)
-    assert(0);
-  
+  assert(index >= 0);
+
   if (index > vec->item_count)
     return NULL;
     
