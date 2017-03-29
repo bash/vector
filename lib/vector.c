@@ -102,3 +102,12 @@ int vector_shrink(Vector *vec) {
 
   return vector_resize(vec, vec->item_count);
 }
+
+void vector_concat(Vector *vec, Vector *value) {
+  assert(vec);
+  assert(value);
+
+  for (int i = 0; i < value->item_count; i += 1) {
+    vector_push(vec, vector_at(value, i));
+  }
+}
