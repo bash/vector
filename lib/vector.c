@@ -127,9 +127,8 @@ int vector_concat(Vector *vec, Vector *value) {
   if (!vector_expand(vec, item_count))
     return 0;
 
-  for (int i = 0; i < value->item_count; i += 1) {
+  for (int i = 0; i < value->item_count; i += 1)
     vector_push(vec, vector_at(value, i));
-  }
 
   return 1;
 }
