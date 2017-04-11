@@ -22,3 +22,5 @@ void vector_free(Vector *vec);
 void vector_remove(Vector *vec, int index, unsigned count);
 
 int vector_concat(Vector *vec, Vector *value);
+
+unsigned vector_length(Vector *vec);

@@ -22,6 +22,10 @@ void vector_init(Vector *vec, unsigned item_size) {
   vec->item_capacity = 0;
 }
 
+unsigned vector_length(Vector *vec) {
+  return vec->item_count;
+}
+
 int vector_resize(Vector *vec, int capacity) {
   assert(vec);
 
