@@ -6,7 +6,7 @@ struct Test {
 };
 
 void print_vector(Vector *vec) {
-  for (size_t i = 0; i < vector_length(vec); i += 1) {
+  for (size_t i = 0; i < vector_length(vec); i++) {
     struct Test *t = vector_at(vec, i);
     printf("i = %zu, foo = %d\n", i, t->foo);
   }
