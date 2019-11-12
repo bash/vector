@@ -101,7 +101,7 @@ size_t vector_calculate_index(const Vector *vec, size_t index) {
   return index;
 }
 
-void *vector_at(const Vector *vec, size_t index) {
+void *vector_at(const Vector * const vec, size_t index) {
   assert(vec);
 
   index = vector_calculate_index(vec, index);

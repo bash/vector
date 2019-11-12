@@ -24,7 +24,7 @@ int vector_push(Vector *vec, void *item);
 
 int vector_shrink(Vector *vec);
 
-void *vector_at(const Vector *vec, size_t index);
+void *vector_at(const Vector * const vec, size_t index);
 
 void vector_free(Vector *vec);
 
@@ -32,6 +32,6 @@ void vector_remove(Vector *vec, size_t index, size_t count);
 
 int vector_concat(Vector *vec, Vector *value);
 
-size_t vector_length(const Vector *vec);
+size_t vector_length(const Vector * const vec);
 
 #endif
