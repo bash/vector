@@ -12,8 +12,8 @@ void print_vector(Vector *vec) {
   }
 }
 
-int main(int argc, char *argv[]) { 
-  Vector *vec = vector_new(sizeof(struct Test));
+int main(int argc, char *argv[]) {
+  Vector *vec = vector_new_with_capacity(sizeof(struct Test), 7);
   
   for (int i = 0; i < 7; i++) {
     struct Test test = { i * 10 };

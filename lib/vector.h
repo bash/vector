@@ -9,7 +9,11 @@ typedef struct Vector Vector;
 
 Vector *vector_new(size_t item_size);
 
+Vector *vector_new_with_capacity(size_t item_size, size_t initial_capacity);
+
 void vector_init(Vector *vec, size_t item_size);
+
+void vector_init_with_capacity(Vector *vec, size_t item_size, size_t initial_capacity);
 
 int vector_push(Vector *vec, void *item);
 

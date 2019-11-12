@@ -5,11 +5,21 @@
 
 #define EXPAND_FACTOR 1.5
 
+int vector_resize(Vector *vec, size_t capacity);
+
+Vector *vector_alloc_buffer() {
+  return malloc(sizeof(Vector));
+}
+
 Vector *vector_new(size_t item_size) {
-  Vector *vec = malloc(sizeof(Vector));
-
+  Vector *vec = vector_alloc_buffer();
   vector_init(vec, item_size);
+  return vec;
+}
 
+Vector *vector_new_with_capacity(size_t item_size, size_t initial_capacity) {
+  Vector *vec = vector_alloc_buffer();
+  vector_init_with_capacity(vec, item_size, initial_capacity);
   return vec;
 }
 
@@ -20,6 +30,11 @@ void vector_init(Vector *vec, size_t item_size) {
   vec->item_count = 0;
   vec->item_size = item_size;
   vec->item_capacity = 0;
+}
+
+void vector_init_with_capacity(Vector *vec, size_t item_size, size_t initial_capacity) {
+  vector_init(vec, item_size);
+  vector_resize(vec, initial_capacity);
 }
 
 size_t vector_length(Vector const *vec) {
