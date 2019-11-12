@@ -5,7 +5,7 @@
 
 #define EXPAND_FACTOR 1.5
 
-Vector *vector_new(unsigned item_size) {
+Vector *vector_new(size_t item_size) {
   Vector *vec = malloc(sizeof(Vector));
 
   vector_init(vec, item_size);
@@ -13,7 +13,7 @@ Vector *vector_new(unsigned item_size) {
   return vec;
 }
 
-void vector_init(Vector *vec, unsigned item_size) {
+void vector_init(Vector *vec, size_t item_size) {
   assert(vec);
 
   vec->buffer = NULL;
@@ -22,11 +22,11 @@ void vector_init(Vector *vec, unsigned item_size) {
   vec->item_capacity = 0;
 }
 
-unsigned vector_length(Vector *vec) {
+size_t vector_length(Vector const *vec) {
   return vec->item_count;
 }
 
-int vector_resize(Vector *vec, int capacity) {
+int vector_resize(Vector *vec, size_t capacity) {
   assert(vec);
 
   if (capacity < vec->item_count)
@@ -43,7 +43,7 @@ int vector_resize(Vector *vec, int capacity) {
   return 1;
 }
 
-int vector_expand(Vector *vec, int item_count) {
+int vector_expand(Vector *vec, size_t item_count) {
   assert(vec);
 
   if (vec->item_capacity < item_count)
@@ -56,12 +56,12 @@ int vector_expand(Vector *vec, int item_count) {
 int vector_push(Vector *vec, void *value) {
   assert(vec);
 
-  unsigned item_count = vec->item_count + 1;
+  size_t item_count = vec->item_count + 1;
 
   if (!vector_expand(vec, item_count))
     return 0;
 
-  for (int i = 0; i < vec->item_size; i += 1)
+  for (size_t i = 0; i < vec->item_size; i += 1)
     vec->buffer[vec->item_count * vec->item_size + i] = ((char *) value)[i];
 
   vec->item_count += 1;
@@ -76,7 +76,7 @@ void vector_free(Vector *vec) {
   free(vec);
 }
 
-unsigned vector_calculate_index(Vector *vec, int index) {
+size_t vector_calculate_index(const Vector *vec, size_t index) {
   if (index < 0)
     index += vec->item_count;
 
@@ -86,7 +86,7 @@ unsigned vector_calculate_index(Vector *vec, int index) {
   return index;
 }
 
-void *vector_at(Vector *vec, int index) {
+void *vector_at(const Vector *vec, size_t index) {
   assert(vec);
 
   index = vector_calculate_index(vec, index);
@@ -94,7 +94,7 @@ void *vector_at(Vector *vec, int index) {
   return &vec->buffer[index * vec->item_size];
 }
 
-void vector_remove(Vector *vec, int index, unsigned count) {
+void vector_remove(Vector *vec, size_t index, size_t count) {
   assert(vec);
  
   index = vector_calculate_index(vec, index);
@@ -102,11 +102,11 @@ void vector_remove(Vector *vec, int index, unsigned count) {
   if ((index + count) >= vec->item_count)
     return;
 
-  unsigned offset = (index + count) * vec->item_size;
-  unsigned end = (vec->item_count - count) * vec->item_size;
-  unsigned remove = count * vec->item_size;
+  size_t offset = (index + count) * vec->item_size;
+  size_t end = (vec->item_count - count) * vec->item_size;
+  size_t remove = count * vec->item_size;
 
-  for (int i = offset; i <= end; i += 1)
+  for (size_t i = offset; i <= end; i += 1)
     vec->buffer[i - remove] = vec->buffer[i];
 
   vec->item_count -= count;
@@ -122,12 +122,12 @@ int vector_concat(Vector *vec, Vector *value) {
   assert(vec);
   assert(value);
 
-  unsigned item_count = vec->item_capacity + value->item_count;
+  size_t item_count = vec->item_capacity + value->item_count;
 
   if (!vector_expand(vec, item_count))
     return 0;
 
-  for (int i = 0; i < value->item_count; i += 1)
+  for (size_t i = 0; i < value->item_count; i += 1)
     vector_push(vec, vector_at(value, i));
 
   return 1;

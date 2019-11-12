@@ -6,9 +6,9 @@ struct Test {
 };
 
 void print_vector(Vector *vec) {
-  for (int i = 0; i < vector_length(vec); i += 1) {
+  for (size_t i = 0; i < vector_length(vec); i += 1) {
     struct Test *t = vector_at(vec, i);
-    printf("i = %d, foo = %d\n", i, t->foo);
+    printf("i = %zu, foo = %d\n", i, t->foo);
   }
 }
 
@@ -19,19 +19,19 @@ int main(int argc, char *argv[]) {
     struct Test test = { i * 10 };
 
     vector_push(vec, &test);
-    printf("count = %d, capacity = %d\n", vec->item_count, vec->item_capacity);
+    printf("count = %zu, capacity = %zu\n", vec->item_count, vec->item_capacity);
   }
 
   vector_shrink(vec);
-  printf("count = %d, capacity = %d\n", vec->item_count, vec->item_capacity);
+  printf("count = %zu, capacity = %zu\n", vec->item_count, vec->item_capacity);
 
   print_vector(vec);
 
   vector_remove(vec, 1, 2);
-  printf("count = %d, capacity = %d\n", vec->item_count, vec->item_capacity);
+  printf("count = %zu, capacity = %zu\n", vec->item_count, vec->item_capacity);
 
   print_vector(vec);
 
   vector_free(vec);
-  printf("count = %d, capacity = %d\n", vec->item_count, vec->item_capacity);
+  printf("count = %zu, capacity = %zu\n", vec->item_count, vec->item_capacity);
 }
