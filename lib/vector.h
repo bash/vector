@@ -7,6 +7,10 @@ struct Vector {
 
 typedef struct Vector Vector;
 
+#define VECTOR_NEW(type) vector_new(sizeof(type))
+
+#define VECTOR_NEW_WITH_CAPACITY(type, capacity) vector_new_with_capacity(sizeof(type), capacity)
+
 Vector *vector_new(size_t item_size);
 
 Vector *vector_new_with_capacity(size_t item_size, size_t initial_capacity);
