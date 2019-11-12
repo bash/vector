@@ -13,7 +13,7 @@ void print_vector(Vector *vec) {
 }
 
 int main(int argc, char *argv[]) {
-  Vector *vec = VECTOR_NEW_WITH_CAPACITY(struct Test, 7);
+  Vector *vec = VECTOR_WITH_CAPACITY(struct Test, 7);
   
   for (int i = 0; i < 7; i++) {
     struct Test test = { i * 10 };

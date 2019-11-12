@@ -1,3 +1,8 @@
+#ifndef VECTOR
+
+#define VECTOR(type) vector_new(sizeof(type))
+#define VECTOR_WITH_CAPACITY(type, capacity) vector_new_with_capacity(sizeof(type), capacity)
+
 struct Vector {
   char *buffer;
   size_t item_count;
@@ -6,10 +11,6 @@ struct Vector {
 };
 
 typedef struct Vector Vector;
-
-#define VECTOR_NEW(type) vector_new(sizeof(type))
-
-#define VECTOR_NEW_WITH_CAPACITY(type, capacity) vector_new_with_capacity(sizeof(type), capacity)
 
 Vector *vector_new(size_t item_size);
 
@@ -32,3 +33,5 @@ void vector_remove(Vector *vec, size_t index, size_t count);
 int vector_concat(Vector *vec, Vector *value);
 
 size_t vector_length(const Vector *vec);
+
+#endif
