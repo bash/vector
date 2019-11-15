@@ -16,22 +16,22 @@ Vector *vector_new(size_t item_size);
 
 Vector *vector_new_with_capacity(size_t item_size, size_t initial_capacity);
 
-void vector_init(Vector *vec, size_t item_size);
+void vector_init(Vector * const vec, size_t item_size);
 
-void vector_init_with_capacity(Vector *vec, size_t item_size, size_t initial_capacity);
+void vector_init_with_capacity(Vector * const vec, size_t item_size, size_t initial_capacity);
 
-int vector_push(Vector *vec, void *item);
+int vector_push(Vector * const vec, void * const item);
 
-int vector_shrink(Vector *vec);
+int vector_shrink(Vector * const vec);
 
-void *vector_at(const Vector * const vec, size_t index);
+void * const vector_at(Vector * const vec, size_t index);
 
-void vector_free(Vector *vec);
+void vector_free(Vector * const vec);
 
-void vector_remove(Vector *vec, size_t index, size_t count);
+void vector_remove(Vector * const vec, size_t index, size_t count);
 
-int vector_concat(Vector *vec, Vector *value);
+int vector_concat(Vector * const vec, Vector *value);
 
-size_t vector_length(const Vector * const vec);
+size_t vector_length(Vector * const vec);
 
 #endif

@@ -5,7 +5,7 @@
 
 #define EXPAND_FACTOR 1.5
 
-int vector_resize(Vector *vec, size_t capacity);
+int vector_resize(Vector * const vec, size_t capacity);
 
 Vector *vector_alloc_buffer() {
   return malloc(sizeof(Vector));
@@ -23,7 +23,7 @@ Vector *vector_new_with_capacity(size_t item_size, size_t initial_capacity) {
   return vec;
 }
 
-void vector_init(Vector *vec, size_t item_size) {
+void vector_init(Vector * const vec, size_t item_size) {
   assert(vec);
 
   vec->buffer = NULL;
@@ -32,16 +32,16 @@ void vector_init(Vector *vec, size_t item_size) {
   vec->item_capacity = 0;
 }
 
-void vector_init_with_capacity(Vector *vec, size_t item_size, size_t initial_capacity) {
+void vector_init_with_capacity(Vector * const vec, size_t item_size, size_t initial_capacity) {
   vector_init(vec, item_size);
   vector_resize(vec, initial_capacity);
 }
 
-size_t vector_length(Vector const *vec) {
+size_t vector_length(Vector * const vec) {
   return vec->item_count;
 }
 
-int vector_resize(Vector *vec, size_t capacity) {
+int vector_resize(Vector * const vec, size_t capacity) {
   assert(vec);
 
   if (capacity < vec->item_count)
@@ -58,7 +58,7 @@ int vector_resize(Vector *vec, size_t capacity) {
   return 1;
 }
 
-int vector_expand(Vector *vec, size_t item_count) {
+int vector_expand(Vector * const vec, size_t item_count) {
   assert(vec);
 
   if (vec->item_capacity < item_count)
@@ -68,7 +68,7 @@ int vector_expand(Vector *vec, size_t item_count) {
   return 1;
 }
 
-int vector_push(Vector *vec, void *value) {
+int vector_push(Vector * const vec, void * const value) {
   assert(vec);
 
   size_t item_count = vec->item_count + 1;
@@ -84,14 +84,14 @@ int vector_push(Vector *vec, void *value) {
   return 1;
 }
 
-void vector_free(Vector *vec) {
+void vector_free(Vector * const vec) {
   assert(vec);
 
   free(vec->buffer);
   free(vec);
 }
 
-size_t vector_calculate_index(const Vector *vec, size_t index) {
+size_t vector_calculate_index(Vector * const vec, size_t index) {
   if (index < 0)
     index += vec->item_count;
 
@@ -101,7 +101,7 @@ size_t vector_calculate_index(const Vector *vec, size_t index) {
   return index;
 }
 
-void *vector_at(const Vector * const vec, size_t index) {
+void * const vector_at(Vector * const vec, size_t index) {
   assert(vec);
 
   index = vector_calculate_index(vec, index);
@@ -109,7 +109,7 @@ void *vector_at(const Vector * const vec, size_t index) {
   return &vec->buffer[index * vec->item_size];
 }
 
-void vector_remove(Vector *vec, size_t index, size_t count) {
+void vector_remove(Vector * const vec, size_t index, size_t count) {
   assert(vec);
  
   index = vector_calculate_index(vec, index);
@@ -127,13 +127,13 @@ void vector_remove(Vector *vec, size_t index, size_t count) {
   vec->item_count -= count;
 }
 
-int vector_shrink(Vector *vec) {
+int vector_shrink(Vector * const vec) {
   assert(vec);
 
   return vector_resize(vec, vec->item_count);
 }
 
-int vector_concat(Vector *vec, Vector *value) {
+int vector_concat(Vector * const vec, Vector * const value) {
   assert(vec);
   assert(value);
 
